@@ -11,9 +11,10 @@
 <style>
 :root {
     --burgundy: #641D32;
+    --wine: #3B101F;
     --ivory: #F8F0E9;
-    --black: #100D0E;
-    --muted: #BFA5AD;
+    --muted: #C5AAB3;
+    --black: #080708;
 }
 
 * {
@@ -27,178 +28,291 @@ body {
     background: var(--burgundy);
     color: var(--ivory);
     font-family: Georgia, serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     overflow: hidden;
     transition: background 1.5s ease;
 }
 
-.screen {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
+button {
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
+/* FILM GRAIN */
+
+.grain {
+    position: fixed;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 20;
+    pointer-events: none;
+    opacity: .12;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+    animation: grainMove .25s steps(2) infinite;
+}
+
+@keyframes grainMove {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(2%,-2%); }
+    50% { transform: translate(-2%,2%); }
+    75% { transform: translate(2%,2%); }
+    100% { transform: translate(-2%,-2%); }
+}
+
+/* INTRO */
+
 .intro {
-    animation: fadeIn 1.5s ease;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    z-index: 5;
+    background:
+        radial-gradient(ellipse at center,
+        #76263F 0%,
+        #641D32 48%,
+        #3A101F 100%);
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.intro.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.intro-content {
+    animation: entrance 1.5s ease;
 }
 
 .eyebrow {
     font-family: Arial, sans-serif;
     font-size: 10px;
-    letter-spacing: 5px;
-    margin-bottom: 35px;
+    letter-spacing: 6px;
     color: var(--muted);
+    margin-bottom: 35px;
 }
 
-h1 {
-    font-size: clamp(30px, 7vw, 55px);
+.intro h1 {
+    font-size: clamp(32px, 7vw, 58px);
+    line-height: 1.2;
     font-weight: 400;
     letter-spacing: -1.5px;
-    margin-bottom: 42px;
+    margin-bottom: 45px;
 }
 
-button {
-    cursor: pointer;
-    border: none;
-    transition: all .3s ease;
-    font-family: Arial, sans-serif;
-}
-
-.primary {
+.primary-btn {
     background: var(--ivory);
     color: var(--burgundy);
+    border: none;
     padding: 19px 35px;
     font-size: 11px;
-    letter-spacing: 2.5px;
     font-weight: bold;
+    letter-spacing: 2.5px;
+    transition: .3s ease;
 }
 
-.primary:hover {
+.primary-btn:hover {
     background: white;
     transform: translateY(-3px);
 }
 
-/* EXPERIENCE */
-
-body.active {
-    background: var(--black);
+.intro-note {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 35px;
 }
 
+/* STAGE */
+
 .stage {
-    display: none;
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    align-items: center;
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 100%,
+        #24131A 0%,
+        #100D0F 45%,
+        #080708 100%);
+    display: flex;
     justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 2s ease;
     overflow: hidden;
 }
 
-body.active .intro {
-    display: none;
+.stage.active {
+    visibility: visible;
+    opacity: 1;
 }
 
-body.active .stage {
-    display: flex;
-    animation: fadeIn 2s ease;
-}
+/* THEATRICAL SPOTLIGHT */
 
-
-.spotlight {
+.beam {
     position: absolute;
     top: -8%;
     left: 50%;
+    width: min(110vw, 1050px);
+    height: 115vh;
     transform: translateX(-50%);
-    width: min(100vw, 950px);
-    height: 110vh;
-    pointer-events: none;
+    clip-path: polygon(47% 0, 53% 0, 94% 100%, 6% 100%);
+    background: linear-gradient(
+        to bottom,
+        rgba(255,244,225,.12),
+        rgba(255,240,220,.07) 65%,
+        rgba(255,230,205,.015)
+    );
+    filter: blur(12px);
     opacity: 0;
+    pointer-events: none;
+    transition: opacity 3s ease;
+}
+
+.stage.lit .beam {
+    opacity: 1;
+}
+
+/* FLOOR LIGHT */
+
+.floor-light {
+    position: absolute;
+    width: min(90vw, 650px);
+    height: 160px;
+    bottom: -75px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(
+        ellipse,
+        rgba(255,225,195,.18),
+        rgba(255,225,195,.06) 45%,
+        transparent 75%
+    );
+    filter: blur(12px);
+    opacity: 0;
+    transition: opacity 3s ease;
+}
+
+.stage.lit .floor-light {
+    opacity: 1;
+}
+
+/* CURTAINS */
+
+.curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    pointer-events: none;
+}
+
+.curtain-panel {
+    width: 50%;
+    height: 100%;
     background:
-        radial-gradient(
-            ellipse 32% 13% at 50% 82%,
-            rgba(255, 244, 220, .32) 0%,
-            rgba(255, 244, 220, .13) 45%,
-            transparent 100%
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.12) 0px,
+            rgba(255,255,255,.025) 12px,
+            transparent 26px,
+            rgba(0,0,0,.12) 38px
         ),
-        conic-gradient(
-            from 160deg at 50% 0%,
-            transparent 0deg,
-            rgba(255, 235, 210, .015) 12deg,
-            rgba(255, 235, 210, .11) 20deg,
-            rgba(255, 235, 210, .015) 28deg,
-            transparent 40deg
+        linear-gradient(
+            90deg,
+            #350D1C,
+            #741F3A 25%,
+            #4B1227 65%,
+            #2B0B17
         );
-    clip-path: polygon(46% 0, 54% 0, 91% 100%, 9% 100%);
-    filter: blur(7px);
+    box-shadow: inset 0 0 50px rgba(0,0,0,.45);
 }
 
-body.active .spotlight {
-    animation: beamOn 2s ease forwards;
+.curtain-panel.left {
+    border-right: 2px solid rgba(255,255,255,.06);
 }
 
-@keyframes beamOn {
-    0% {
-        opacity: 0;
-        filter: blur(20px);
-    }
-    100% {
-        opacity: 1;
-        filter: blur(7px);
-    }
-        }
-    
+.curtain-panel.right {
+    border-left: 2px solid rgba(255,255,255,.06);
+}
+
+.curtain.open .left {
+    animation: curtainLeft 2.4s cubic-bezier(.7,0,.2,1) forwards;
+}
+
+.curtain.open .right {
+    animation: curtainRight 2.4s cubic-bezier(.7,0,.2,1) forwards;
+}
+
+@keyframes curtainLeft {
+    to { transform: translateX(-100%); }
+}
+
+@keyframes curtainRight {
+    to { transform: translateX(100%); }
+}
+
+/* STAGE CONTENT */
+
 .content {
     position: relative;
     z-index: 2;
-    max-width: 650px;
+    text-align: center;
+    width: min(90%, 700px);
     padding: 25px;
-    animation: rise 2s ease;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+.stage.lit .content {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .stage-label {
-    color: var(--muted);
     font-family: Arial, sans-serif;
+    color: var(--muted);
     font-size: 10px;
-    letter-spacing: 5px;
-    margin-bottom: 35px;
+    letter-spacing: 6px;
+    margin-bottom: 40px;
 }
 
 .main-message {
-    font-size: clamp(27px, 6vw, 43px);
+    font-size: clamp(27px, 6vw, 47px);
+    line-height: 1.45;
     font-weight: 400;
-    line-height: 1.5;
     margin-bottom: 35px;
-    transition: opacity .5s ease;
 }
 
 .quote {
-    font-size: 17px;
-    line-height: 1.7;
     color: var(--muted);
+    font-size: clamp(15px, 3vw, 19px);
+    line-height: 1.7;
     min-height: 55px;
-    transition: opacity .4s ease;
+    transition: opacity .5s ease;
 }
 
 .timer {
     font-family: Arial, sans-serif;
-    font-size: 48px;
+    font-size: 49px;
     font-weight: 300;
-    letter-spacing: 5px;
-    margin: 35px 0 10px;
+    letter-spacing: 7px;
+    margin-top: 38px;
     font-variant-numeric: tabular-nums;
 }
 
 .timer-label {
+    color: var(--muted);
     font-family: Arial, sans-serif;
     font-size: 9px;
-    color: var(--muted);
     letter-spacing: 3px;
+    margin-top: 12px;
 }
 
 .controls {
@@ -209,32 +323,89 @@ body.active .spotlight {
     margin-top: 40px;
 }
 
-.secondary {
-    background: transparent;
-    border: 1px solid rgba(248,240,233,.4);
+.secondary-btn {
     color: var(--ivory);
-    padding: 13px 19px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.3);
+    padding: 14px 19px;
     font-size: 10px;
     letter-spacing: 1.5px;
+    transition: .3s;
 }
 
-.secondary:hover {
-    background: rgba(248,240,233,.12);
+.secondary-btn:hover {
+    background: rgba(255,255,255,.12);
 }
 
-.sound-control {
-    position: absolute;
-    bottom: 30px;
-    right: 25px;
-    z-index: 3;
-}
+/* SOUND */
 
-.sound-control button {
-    background: transparent;
+.sound-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 15;
     color: var(--muted);
-    font-size: 10px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.2);
+    padding: 12px 15px;
+    font-size: 9px;
     letter-spacing: 2px;
-    padding: 12px;
+}
+
+/* FINALE */
+
+.ending {
+    position: fixed;
+    inset: 0;
+    z-index: 8;
+    background:
+        radial-gradient(ellipse at center,
+        #351923 0%,
+        #100D0F 65%,
+        #080708 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s ease, visibility 2s ease;
+}
+
+.ending.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ending-content {
+    max-width: 620px;
+    animation: endingReveal 2.5s ease;
+}
+
+.ending-label {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 6px;
+    margin-bottom: 40px;
+}
+
+.ending h2 {
+    font-size: clamp(30px, 6vw, 48px);
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.ending p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.restart {
+    margin-top: 45px;
 }
 
 .hidden {
@@ -243,12 +414,7 @@ body.active .spotlight {
 
 /* ANIMATIONS */
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes rise {
+@keyframes entrance {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -259,20 +425,46 @@ body.active .spotlight {
     }
 }
 
-@keyframes lightIn {
-    from { opacity: 0; transform: scale(.7); }
-    to { opacity: 1; transform: scale(1); }
+@keyframes endingReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@media (max-width: 480px) {
-    .eyebrow { letter-spacing: 4px; }
-    .main-message { font-size: 29px; }
-    .quote { font-size: 15px; }
-    .timer { font-size: 42px; }
+@media(max-width:480px) {
+    .intro h1 {
+        font-size: 35px;
+    }
+
+    .stage-label {
+        letter-spacing: 4px;
+        margin-bottom: 30px;
+    }
+
+    .main-message {
+        font-size: 29px;
+    }
+
+    .timer {
+        font-size: 43px;
+    }
+
+    .controls {
+        margin-top: 28px;
+    }
+
+    .secondary-btn {
+        padding: 12px 13px;
+    }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+@media(prefers-reduced-motion:reduce) {
+    *,*::before,*::after {
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
     }
@@ -282,26 +474,35 @@ body.active .spotlight {
 
 <body>
 
-<!-- INTRO SCREEN -->
+<div class="grain"></div>
 
-<div class="screen intro">
-    <div>
+<!-- INTRODUCTION -->
+
+<section class="intro" id="intro">
+    <div class="intro-content">
+
         <div class="eyebrow">A MOMENT OF YOUR OWN</div>
 
         <h1>No mistakes in spotlight.</h1>
 
-        <button class="primary" onclick="enterSpotlight()">
+        <button class="primary-btn" onclick="enterSpotlight()">
             ENTER THE SPOTLIGHT
         </button>
+
+        <div class="intro-note">
+            THE MOMENT IS YOURS.
+        </div>
+
     </div>
-</div>
+</section>
 
 
-<!-- SPOTLIGHT EXPERIENCE -->
+<!-- STAGE -->
 
-<section class="stage">
+<main class="stage" id="stage">
 
-    <div class="spotlight"></div>
+    <div class="beam"></div>
+    <div class="floor-light"></div>
 
     <div class="content">
 
@@ -327,22 +528,64 @@ body.active .spotlight {
 
         <div class="controls">
 
-            <button class="secondary" onclick="newQuote()">
+            <button class="secondary-btn" onclick="newQuote()">
                 NEW PERSPECTIVE
             </button>
 
-            <button class="secondary" onclick="resetTimer()">
-                RESTART TIMER
+            <button class="secondary-btn" id="pauseButton"
+                    onclick="togglePause()">
+                PAUSE TIMER
             </button>
 
         </div>
 
     </div>
 
-    <div class="sound-control">
-        <button onclick="toggleSound()" id="soundButton">
-            SOUND: OFF
+</main>
+
+
+<!-- THEATRE CURTAINS -->
+
+<div class="curtain" id="curtain">
+    <div class="curtain-panel left"></div>
+    <div class="curtain-panel right"></div>
+</div>
+
+
+<!-- SOUND CONTROL -->
+
+<button class="sound-btn" id="soundButton"
+        onclick="toggleSound()">
+    SOUND: OFF
+</button>
+
+
+<!-- CLOSING SCENE -->
+
+<section class="ending" id="ending">
+
+    <div class="ending-content">
+
+        <div class="ending-label">
+            THE SPOTLIGHT
+        </div>
+
+        <h2>
+            The preparation is over.
+            <br>
+            Now make the moment count.
+        </h2>
+
+        <p>
+            You don't have to be perfect.
+            Just be present.
+        </p>
+
+        <button class="primary-btn restart"
+                onclick="replay()">
+            EXPERIENCE IT AGAIN
         </button>
+
     </div>
 
 </section>
@@ -350,7 +593,7 @@ body.active .spotlight {
 
 <script>
 
-// MOTIVATIONAL QUOTES
+/* QUOTES */
 
 const quotes = [
     "Let your preparation speak.",
@@ -358,98 +601,204 @@ const quotes = [
     "This is your moment.",
     "Confidence is built before the spotlight.",
     "Be present. Be prepared. Perform.",
-    "The stage doesn't define you. Your preparation does.",
     "Own the moment. Trust the process.",
     "Excellence is a habit, not an accident.",
     "You don't need permission to shine.",
-    "Make the moment count."
+    "Make the moment count.",
+    "Your discipline will introduce you before you speak.",
+    "Preparation turns pressure into opportunity.",
+    "Don't chase perfection. Pursue excellence."
 ];
 
-let previousQuote = -1;
+let lastQuote = -1;
 
 function newQuote() {
+
     let index;
 
     do {
         index = Math.floor(Math.random() * quotes.length);
-    } while (index === previousQuote && quotes.length > 1);
+    } while (index === lastQuote);
 
-    previousQuote = index;
+    lastQuote = index;
 
-    const quoteElement = document.getElementById("quote");
+    const element = document.getElementById("quote");
 
-    quoteElement.style.opacity = 0;
+    element.style.opacity = 0;
 
     setTimeout(() => {
-        quoteElement.textContent = quotes[index];
-        quoteElement.style.opacity = 1;
-    }, 400);
+        element.textContent = quotes[index];
+        element.style.opacity = 1;
+    }, 450);
 }
 
 
-// COUNTDOWN TIMER
+/* TIMER */
 
 let timeLeft = 60;
 let timerInterval = null;
+let paused = false;
+let finished = false;
 
-function updateTimer() {
+function updateTimerDisplay() {
+
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
     document.getElementById("timer").textContent =
         String(minutes).padStart(2, "0") + ":" +
         String(seconds).padStart(2, "0");
-
-    if (timeLeft === 0) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-
-        document.getElementById("timerLabel").textContent =
-            "THE MOMENT IS YOURS. GO MAKE IT COUNT.";
-
-        return;
-    }
-
-    timeLeft--;
 }
 
 function startTimer() {
-    if (timerInterval !== null) return;
 
-    updateTimer();
+    if (timerInterval || finished || paused) return;
 
-    timerInterval = setInterval(updateTimer, 1000);
+    timerInterval = setInterval(() => {
+
+        if (timeLeft > 0) {
+            timeLeft--;
+            updateTimerDisplay();
+        }
+
+        if (timeLeft === 0) {
+            completeExperience();
+        }
+
+    }, 1000);
 }
 
-function resetTimer() {
+function togglePause() {
+
+    if (finished) return;
+
+    paused = !paused;
+
+    const button = document.getElementById("pauseButton");
+
+    if (paused) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        button.textContent = "RESUME TIMER";
+
+        document.getElementById("timerLabel").textContent =
+            "TAKE YOUR TIME";
+    } else {
+        button.textContent = "PAUSE TIMER";
+
+        document.getElementById("timerLabel").textContent =
+            "YOUR MOMENT IS WAITING";
+
+        startTimer();
+    }
+}
+
+
+/* QUOTE ROTATION */
+
+let quoteInterval = null;
+
+function startQuotes() {
+
+    clearInterval(quoteInterval);
+
+    quoteInterval = setInterval(() => {
+        if (!finished) newQuote();
+    }, 8000);
+}
+
+
+/* ENTER THE SPOTLIGHT */
+
+function enterSpotlight() {
+
+    document.getElementById("intro").classList.add("hide");
+
+    const stage = document.getElementById("stage");
+    stage.classList.add("active");
+
+    const curtain = document.getElementById("curtain");
+
+    setTimeout(() => {
+        curtain.classList.add("open");
+    }, 250);
+
+    setTimeout(() => {
+        stage.classList.add("lit");
+    }, 1600);
+
+    newQuote();
+    startQuotes();
+    startTimer();
+}
+
+
+/* ENDING */
+
+function completeExperience() {
+
+    if (finished) return;
+
+    finished = true;
+
     clearInterval(timerInterval);
+    clearInterval(quoteInterval);
+
     timerInterval = null;
+    quoteInterval = null;
+
+    document.getElementById("timerLabel").textContent =
+        "TIME IS UP";
+
+    document.getElementById("stage").classList.remove("lit");
+
+    document.getElementById("ending").classList.add("show");
+
+    stopSound();
+}
+
+
+/* REPLAY */
+
+function replay() {
+
+    clearInterval(timerInterval);
+    clearInterval(quoteInterval);
+
+    timerInterval = null;
+    quoteInterval = null;
+
     timeLeft = 60;
+    paused = false;
+    finished = false;
+    lastQuote = -1;
+
+    updateTimerDisplay();
+
+    document.getElementById("pauseButton").textContent =
+        "PAUSE TIMER";
 
     document.getElementById("timerLabel").textContent =
         "YOUR MOMENT STARTS NOW";
 
-    updateTimer();
-    startTimer();
+    document.getElementById("ending").classList.remove("show");
+
+    const stage = document.getElementById("stage");
+    stage.classList.remove("lit", "active");
+
+    const curtain = document.getElementById("curtain");
+    curtain.classList.remove("open");
+
+    document.getElementById("intro").classList.remove("hide");
+
 }
 
 
-// ENTER THE EXPERIENCE
-
-function enterSpotlight() {
-    document.body.classList.add("active");
-
-    newQuote();
-    startTimer();
-}
-
-
-// OPTIONAL AMBIENT SOUND
-// Generated using Web Audio API.
-// No external audio files required.
+/* OPTIONAL AMBIENT SOUND */
 
 let audioContext = null;
-let oscillator = null;
+let oscillator1 = null;
+let oscillator2 = null;
 let gainNode = null;
 let soundEnabled = false;
 
@@ -460,24 +809,35 @@ function toggleSound() {
         const AudioContext =
             window.AudioContext || window.webkitAudioContext;
 
-        if (!AudioContext) return;
+        if (!AudioContext) {
+            alert("Audio is not supported on this browser.");
+            return;
+        }
 
         audioContext = new AudioContext();
-
         audioContext.resume();
 
-        oscillator = audioContext.createOscillator();
         gainNode = audioContext.createGain();
+        gainNode.gain.value = 0.018;
 
-        oscillator.type = "sine";
-        oscillator.frequency.value = 55;
+        oscillator1 = audioContext.createOscillator();
+        oscillator2 = audioContext.createOscillator();
 
-        gainNode.gain.value = 0.015;
+        oscillator1.type = "sine";
+        oscillator2.type = "sine";
 
-        oscillator.connect(gainNode);
+        oscillator1.frequency.value = 55;
+        oscillator2.frequency.value = 82.41;
+
+        oscillator2.detune.value = 3;
+
+        oscillator1.connect(gainNode);
+        oscillator2.connect(gainNode);
+
         gainNode.connect(audioContext.destination);
 
-        oscillator.start();
+        oscillator1.start();
+        oscillator2.start();
 
         soundEnabled = true;
 
@@ -485,26 +845,42 @@ function toggleSound() {
             "SOUND: ON";
 
     } else {
-
-        if (oscillator) {
-            oscillator.stop();
-            oscillator = null;
-        }
-
-        if (audioContext) {
-            audioContext.close();
-            audioContext = null;
-        }
-
-        soundEnabled = false;
-
-        document.getElementById("soundButton").textContent =
-            "SOUND: OFF";
+        stopSound();
     }
 }
+
+function stopSound() {
+
+    if (audioContext) {
+
+        if (oscillator1) {
+            try { oscillator1.stop(); } catch(e) {}
+        }
+
+        if (oscillator2) {
+            try { oscillator2.stop(); } catch(e) {}
+        }
+
+        audioContext.close();
+
+        audioContext = null;
+        oscillator1 = null;
+        oscillator2 = null;
+        gainNode = null;
+    }
+
+    soundEnabled = false;
+
+    document.getElementById("soundButton").textContent =
+        "SOUND: OFF";
+}
+
+
+/* INITIAL STATE */
+
+updateTimerDisplay();
 
 </script>
 
 </body>
 </html>
-
