@@ -4,9 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Spotlight</title>
+<meta name="theme-color" content="#641D32">
+
+<title>THE SPOTLIGHT</title>
 
 <style>
+:root {
+    --burgundy: #641D32;
+    --ivory: #F8F0E9;
+    --black: #100D0E;
+    --muted: #BFA5AD;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -15,83 +24,228 @@
 
 body {
     min-height: 100vh;
-    background: #641D32;
-    color: #F8F0E9;
+    background: var(--burgundy);
+    color: var(--ivory);
     font-family: Georgia, serif;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    transition: background 1.2s ease;
+    transition: background 1.5s ease;
 }
 
-.container {
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 25px;
-    animation: appear 1.2s ease;
+}
+
+.intro {
+    animation: fadeIn 1.5s ease;
+}
+
+.eyebrow {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    margin-bottom: 35px;
+    color: var(--muted);
 }
 
 h1 {
-    font-size: clamp(28px, 6vw, 46px);
+    font-size: clamp(30px, 7vw, 55px);
     font-weight: 400;
-    letter-spacing: -1px;
-    margin-bottom: 38px;
+    letter-spacing: -1.5px;
+    margin-bottom: 42px;
 }
 
 button {
-    background: #F8F0E9;
-    color: #641D32;
-    border: none;
-    padding: 17px 32px;
-    font-size: 12px;
-    letter-spacing: 2px;
-    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
+    border: none;
+    transition: all .3s ease;
+    font-family: Arial, sans-serif;
 }
 
-button:hover {
+.primary {
+    background: var(--ivory);
+    color: var(--burgundy);
+    padding: 19px 35px;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    font-weight: bold;
+}
+
+.primary:hover {
     background: white;
     transform: translateY(-3px);
 }
 
+/* EXPERIENCE */
+
 body.active {
-    background: #100D0E;
+    background: var(--black);
 }
 
-.message {
+.stage {
     display: none;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+body.active .intro {
+    display: none;
+}
+
+body.active .stage {
+    display: flex;
+    animation: fadeIn 2s ease;
+}
+
+.spotlight {
+    position: absolute;
+    width: min(85vw, 650px);
+    height: min(85vw, 650px);
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 239, 220, .13) 0%,
+        rgba(255, 239, 220, .06) 35%,
+        transparent 70%
+    );
+    animation: lightIn 3s ease forwards;
+    pointer-events: none;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
     max-width: 650px;
-    padding: 30px;
-    font-size: clamp(25px, 5vw, 42px);
-    line-height: 1.5;
+    padding: 25px;
+    animation: rise 2s ease;
+}
+
+.stage-label {
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    margin-bottom: 35px;
+}
+
+.main-message {
+    font-size: clamp(27px, 6vw, 43px);
     font-weight: 400;
-    opacity: 0;
+    line-height: 1.5;
+    margin-bottom: 35px;
+    transition: opacity .5s ease;
 }
 
-body.active .container {
-    display: none;
+.quote {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--muted);
+    min-height: 55px;
+    transition: opacity .4s ease;
 }
 
-body.active .message {
-    display: block;
-    animation: spotlight 2s ease forwards;
+.timer {
+    font-family: Arial, sans-serif;
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    margin: 35px 0 10px;
+    font-variant-numeric: tabular-nums;
 }
 
-@keyframes appear {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+.timer-label {
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 3px;
 }
 
-@keyframes spotlight {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+.controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+.secondary {
+    background: transparent;
+    border: 1px solid rgba(248,240,233,.4);
+    color: var(--ivory);
+    padding: 13px 19px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.secondary:hover {
+    background: rgba(248,240,233,.12);
+}
+
+.sound-control {
+    position: absolute;
+    bottom: 30px;
+    right: 25px;
+    z-index: 3;
+}
+
+.sound-control button {
+    background: transparent;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 12px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lightIn {
+    from { opacity: 0; transform: scale(.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+    .eyebrow { letter-spacing: 4px; }
+    .main-message { font-size: 29px; }
+    .quote { font-size: 15px; }
+    .timer { font-size: 42px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
     }
 }
 </style>
@@ -99,24 +253,229 @@ body.active .message {
 
 <body>
 
-<div class="container">
-    <h1>No mistakes in spotlight</h1>
-    <button onclick="enterSpotlight()">
-        ENTER THE SPOTLIGHT
-    </button>
+<!-- INTRO SCREEN -->
+
+<div class="screen intro">
+    <div>
+        <div class="eyebrow">A MOMENT OF YOUR OWN</div>
+
+        <h1>No mistakes in spotlight.</h1>
+
+        <button class="primary" onclick="enterSpotlight()">
+            ENTER THE SPOTLIGHT
+        </button>
+    </div>
 </div>
 
-<div class="message">
-    You were never supposed to be perfect.
-    <br>
-    You were supposed to be prepared.
-</div>
+
+<!-- SPOTLIGHT EXPERIENCE -->
+
+<section class="stage">
+
+    <div class="spotlight"></div>
+
+    <div class="content">
+
+        <div class="stage-label">
+            THE MOMENT IS YOURS
+        </div>
+
+        <h2 class="main-message">
+            You were never supposed to be perfect.
+            <br>
+            You were supposed to be prepared.
+        </h2>
+
+        <p class="quote" id="quote">
+            Let your preparation speak.
+        </p>
+
+        <div class="timer" id="timer">01:00</div>
+
+        <div class="timer-label" id="timerLabel">
+            YOUR MOMENT STARTS NOW
+        </div>
+
+        <div class="controls">
+
+            <button class="secondary" onclick="newQuote()">
+                NEW PERSPECTIVE
+            </button>
+
+            <button class="secondary" onclick="resetTimer()">
+                RESTART TIMER
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="sound-control">
+        <button onclick="toggleSound()" id="soundButton">
+            SOUND: OFF
+        </button>
+    </div>
+
+</section>
+
 
 <script>
+
+// MOTIVATIONAL QUOTES
+
+const quotes = [
+    "Let your preparation speak.",
+    "Pressure creates presence.",
+    "This is your moment.",
+    "Confidence is built before the spotlight.",
+    "Be present. Be prepared. Perform.",
+    "The stage doesn't define you. Your preparation does.",
+    "Own the moment. Trust the process.",
+    "Excellence is a habit, not an accident.",
+    "You don't need permission to shine.",
+    "Make the moment count."
+];
+
+let previousQuote = -1;
+
+function newQuote() {
+    let index;
+
+    do {
+        index = Math.floor(Math.random() * quotes.length);
+    } while (index === previousQuote && quotes.length > 1);
+
+    previousQuote = index;
+
+    const quoteElement = document.getElementById("quote");
+
+    quoteElement.style.opacity = 0;
+
+    setTimeout(() => {
+        quoteElement.textContent = quotes[index];
+        quoteElement.style.opacity = 1;
+    }, 400);
+}
+
+
+// COUNTDOWN TIMER
+
+let timeLeft = 60;
+let timerInterval = null;
+
+function updateTimer() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    document.getElementById("timer").textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+
+    if (timeLeft === 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+
+        document.getElementById("timerLabel").textContent =
+            "THE MOMENT IS YOURS. GO MAKE IT COUNT.";
+
+        return;
+    }
+
+    timeLeft--;
+}
+
+function startTimer() {
+    if (timerInterval !== null) return;
+
+    updateTimer();
+
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timeLeft = 60;
+
+    document.getElementById("timerLabel").textContent =
+        "YOUR MOMENT STARTS NOW";
+
+    updateTimer();
+    startTimer();
+}
+
+
+// ENTER THE EXPERIENCE
+
 function enterSpotlight() {
     document.body.classList.add("active");
+
+    newQuote();
+    startTimer();
 }
+
+
+// OPTIONAL AMBIENT SOUND
+// Generated using Web Audio API.
+// No external audio files required.
+
+let audioContext = null;
+let oscillator = null;
+let gainNode = null;
+let soundEnabled = false;
+
+function toggleSound() {
+
+    if (!soundEnabled) {
+
+        const AudioContext =
+            window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContext) return;
+
+        audioContext = new AudioContext();
+
+        audioContext.resume();
+
+        oscillator = audioContext.createOscillator();
+        gainNode = audioContext.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.value = 55;
+
+        gainNode.gain.value = 0.015;
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.start();
+
+        soundEnabled = true;
+
+        document.getElementById("soundButton").textContent =
+            "SOUND: ON";
+
+    } else {
+
+        if (oscillator) {
+            oscillator.stop();
+            oscillator = null;
+        }
+
+        if (audioContext) {
+            audioContext.close();
+            audioContext = null;
+        }
+
+        soundEnabled = false;
+
+        document.getElementById("soundButton").textContent =
+            "SOUND: OFF";
+    }
+}
+
 </script>
 
 </body>
 </html>
+
