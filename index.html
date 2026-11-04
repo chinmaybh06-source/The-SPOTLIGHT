@@ -4,883 +4,947 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#641D32">
-
+<meta name="theme-color" content="#641d32">
 <title>THE SPOTLIGHT</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
 :root {
-    --burgundy: #641D32;
-    --wine: #3B101F;
-    --ivory: #F8F0E9;
-    --muted: #C5AAB3;
-    --black: #080708;
+  --burgundy: #641d32;
+  --burgundy-dark: #210b14;
+  --ivory: #f8f0e9;
+  --gold: #d6b47a;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
-    min-height: 100vh;
-    background: var(--burgundy);
-    color: var(--ivory);
-    font-family: Georgia, serif;
-    overflow: hidden;
-    transition: background 1.5s ease;
+  min-height: 100vh;
+  background: #090709;
+  color: var(--ivory);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
 button {
-    font-family: Arial, sans-serif;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
+  font: inherit;
+  cursor: pointer;
 }
 
-/* FILM GRAIN */
-
-.grain {
-    position: fixed;
-    inset: -50%;
-    width: 200%;
-    height: 200%;
-    z-index: 20;
-    pointer-events: none;
-    opacity: .12;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
-    animation: grainMove .25s steps(2) infinite;
-}
-
-@keyframes grainMove {
-    0% { transform: translate(0,0); }
-    25% { transform: translate(2%,-2%); }
-    50% { transform: translate(-2%,2%); }
-    75% { transform: translate(2%,2%); }
-    100% { transform: translate(-2%,-2%); }
-}
+.hidden { display: none !important; }
 
 /* INTRO */
 
-.intro {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 25px;
-    z-index: 5;
-    background:
-        radial-gradient(ellipse at center,
-        #76263F 0%,
-        #641D32 48%,
-        #3A101F 100%);
-    transition: opacity 1s ease, visibility 1s ease;
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 25px;
+  background:
+    radial-gradient(ellipse at 50% 45%, #8b344d 0%, #641d32 38%, #260c17 100%);
+  transition: opacity 1.2s ease, visibility 1.2s ease;
 }
 
-.intro.hide {
-    opacity: 0;
-    visibility: hidden;
+#intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .16;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
 }
 
-.intro-content {
-    animation: entrance 1.5s ease;
+.intro-label {
+  color: var(--gold);
+  letter-spacing: 6px;
+  font-size: 10px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
 }
 
-.eyebrow {
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 6px;
-    color: var(--muted);
-    margin-bottom: 35px;
+.intro-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 10vw, 100px);
+  line-height: .95;
+  font-weight: 500;
+  letter-spacing: -2px;
+  max-width: 850px;
 }
 
-.intro h1 {
-    font-size: clamp(32px, 7vw, 58px);
-    line-height: 1.2;
-    font-weight: 400;
-    letter-spacing: -1.5px;
-    margin-bottom: 45px;
+.intro-title span { display: block; }
+
+.intro-subtitle {
+  margin-top: 25px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #e6cbd0;
+  text-transform: uppercase;
 }
 
 .primary-btn {
-    background: var(--ivory);
-    color: var(--burgundy);
-    border: none;
-    padding: 19px 35px;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 2.5px;
-    transition: .3s ease;
+  margin-top: 55px;
+  border: 1px solid rgba(248,240,233,.7);
+  color: var(--ivory);
+  background: transparent;
+  padding: 17px 34px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  transition: .4s;
 }
 
 .primary-btn:hover {
-    background: white;
-    transform: translateY(-3px);
+  background: var(--ivory);
+  color: var(--burgundy);
+  box-shadow: 0 0 35px #f8f0e955;
 }
 
-.intro-note {
-    color: var(--muted);
-    font-family: Arial, sans-serif;
-    font-size: 9px;
-    letter-spacing: 2px;
-    margin-top: 35px;
+/* THEATRE */
+
+#theatre {
+  position: fixed;
+  inset: 0;
+  min-height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 65%, #34232a 0%, #171015 45%, #080709 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.5s ease;
 }
 
-/* STAGE */
-
-.stage {
-    position: fixed;
-    inset: 0;
-    background:
-        radial-gradient(ellipse at 50% 100%,
-        #24131A 0%,
-        #100D0F 45%,
-        #080708 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 2s ease;
-    overflow: hidden;
+#theatre.active {
+  opacity: 1;
+  visibility: visible;
 }
 
-.stage.active {
-    visibility: visible;
-    opacity: 1;
+.ambient-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 20%, #8c52602b, transparent 55%);
+  pointer-events: none;
 }
 
-/* THEATRICAL SPOTLIGHT */
+.ceiling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 12%;
+  background: linear-gradient(#050405, #130c10 70%, transparent);
+  z-index: 3;
+}
+
+/* Spotlight source */
+
+.spot-source {
+  position: absolute;
+  z-index: 5;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f5dfb5;
+  box-shadow:
+    0 0 12px 5px #f4dfbd88,
+    0 0 35px 15px #f4dfb522;
+}
+
+/* Atmospheric beam */
 
 .beam {
-    position: absolute;
-    top: -8%;
-    left: 50%;
-    width: min(110vw, 1050px);
-    height: 115vh;
-    transform: translateX(-50%);
-    clip-path: polygon(47% 0, 53% 0, 94% 100%, 6% 100%);
-    background: linear-gradient(
-        to bottom,
-        rgba(255,244,225,.12),
-        rgba(255,240,220,.07) 65%,
-        rgba(255,230,205,.015)
-    );
-    filter: blur(12px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 3s ease;
+  position: absolute;
+  z-index: 2;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90vw, 900px);
+  height: 78%;
+  clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);
+  background: linear-gradient(
+    to bottom,
+    #fff0c918,
+    #fff0c90c 55%,
+    #fff0c900
+  );
+  filter: blur(12px);
+  opacity: 0;
+  transition: opacity 2.5s ease;
 }
 
-.stage.lit .beam {
-    opacity: 1;
+#theatre.lit .beam { opacity: 1; }
+
+.beam-core {
+  position: absolute;
+  z-index: 2;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(58vw, 520px);
+  height: 75%;
+  clip-path: polygon(48% 0, 52% 0, 100% 100%, 0 100%);
+  background: linear-gradient(
+    to bottom,
+    #fff5d51b,
+    #fff0c90b 60%,
+    transparent
+  );
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 2.5s ease;
 }
 
-/* FLOOR LIGHT */
+#theatre.lit .beam-core { opacity: 1; }
 
-.floor-light {
-    position: absolute;
-    width: min(90vw, 650px);
-    height: 160px;
-    bottom: -75px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: radial-gradient(
-        ellipse,
-        rgba(255,225,195,.18),
-        rgba(255,225,195,.06) 45%,
-        transparent 75%
-    );
-    filter: blur(12px);
-    opacity: 0;
-    transition: opacity 3s ease;
+/* Haze */
+
+.haze {
+  position: absolute;
+  z-index: 3;
+  width: 120%;
+  height: 40%;
+  left: -10%;
+  top: 42%;
+  background: radial-gradient(ellipse, #e6c99b12, transparent 68%);
+  filter: blur(30px);
+  animation: hazeMove 12s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
-.stage.lit .floor-light {
-    opacity: 1;
+@keyframes hazeMove {
+  from { transform: translateX(-3%) translateY(0); }
+  to { transform: translateX(3%) translateY(-10px); }
 }
 
-/* CURTAINS */
+/* Stage */
+
+.stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  z-index: 1;
+  background:
+    linear-gradient(to bottom, #160e12, #090709 85%);
+  border-top: 1px solid #b08b6430;
+}
+
+.stage-floor {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  transform: translateX(-50%);
+  width: min(85vw, 850px);
+  height: 36%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #e6c99b27 0%,
+    #b68c5c10 40%,
+    transparent 72%
+  );
+  filter: blur(13px);
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+#theatre.lit .stage-floor { opacity: 1; }
+
+/* Curtains */
 
 .curtain {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    display: flex;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 52%;
+  z-index: 10;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #17060d 0px,
+      #3b1020 12px,
+      #681d34 25px,
+      #310e1b 39px,
+      #17060d 52px
+    );
+  box-shadow:
+    inset -18px 0 30px #0008,
+    inset 15px 0 25px #0008,
+    0 0 40px #000;
+  transition: transform 3s cubic-bezier(.77,0,.18,1);
 }
 
-.curtain-panel {
-    width: 50%;
-    height: 100%;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,0,0,.12) 0px,
-            rgba(255,255,255,.025) 12px,
-            transparent 26px,
-            rgba(0,0,0,.12) 38px
-        ),
-        linear-gradient(
-            90deg,
-            #350D1C,
-            #741F3A 25%,
-            #4B1227 65%,
-            #2B0B17
-        );
-    box-shadow: inset 0 0 50px rgba(0,0,0,.45);
+.curtain.left {
+  left: 0;
+  border-right: 2px solid #a36a5030;
 }
 
-.curtain-panel.left {
-    border-right: 2px solid rgba(255,255,255,.06);
+.curtain.right {
+  right: 0;
+  border-left: 2px solid #a36a5030;
 }
 
-.curtain-panel.right {
-    border-left: 2px solid rgba(255,255,255,.06);
+#theatre.open .curtain.left {
+  transform: translateX(-105%);
 }
 
-.curtain.open .left {
-    animation: curtainLeft 2.4s cubic-bezier(.7,0,.2,1) forwards;
+#theatre.open .curtain.right {
+  transform: translateX(105%);
 }
 
-.curtain.open .right {
-    animation: curtainRight 2.4s cubic-bezier(.7,0,.2,1) forwards;
+/* Curtain valance */
+
+.valance {
+  position: absolute;
+  z-index: 11;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 9%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #230a14,
+      #6a2037 35px,
+      #320e1c 70px
+    );
+  border-bottom: 3px solid #a477543d;
+  border-radius: 0 0 50% 50%;
+  box-shadow: 0 8px 25px #000b;
+  transition: transform 2s ease, opacity 2s ease;
 }
 
-@keyframes curtainLeft {
-    to { transform: translateX(-100%); }
+#theatre.open .valance {
+  transform: translateY(-110%);
+  opacity: 0;
 }
 
-@keyframes curtainRight {
-    to { transform: translateX(100%); }
+/* Main content */
+
+.experience {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -44%);
+  width: min(88%, 750px);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 2s ease 1.5s;
 }
 
-/* STAGE CONTENT */
+#theatre.revealed .experience { opacity: 1; }
 
-.content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    width: min(90%, 700px);
-    padding: 25px;
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 1.5s ease, transform 1.5s ease;
-}
-
-.stage.lit .content {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.stage-label {
-    font-family: Arial, sans-serif;
-    color: var(--muted);
-    font-size: 10px;
-    letter-spacing: 6px;
-    margin-bottom: 40px;
+.mode-kicker {
+  color: var(--gold);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-size: 10px;
+  margin-bottom: 25px;
 }
 
 .main-message {
-    font-size: clamp(27px, 6vw, 47px);
-    line-height: 1.45;
-    font-weight: 400;
-    margin-bottom: 35px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 6.5vw, 68px);
+  line-height: 1.08;
+  font-weight: 400;
+  text-shadow: 0 4px 35px #000;
+  min-height: 2.2em;
 }
 
 .quote {
-    color: var(--muted);
-    font-size: clamp(15px, 3vw, 19px);
-    line-height: 1.7;
-    min-height: 55px;
-    transition: opacity .5s ease;
+  color: #e6d8d2;
+  font-size: clamp(12px, 2vw, 15px);
+  line-height: 1.8;
+  letter-spacing: .5px;
+  margin: 25px auto 0;
+  max-width: 540px;
+  min-height: 3.5em;
+  transition: opacity .5s ease;
 }
 
-.timer {
-    font-family: Arial, sans-serif;
-    font-size: 49px;
-    font-weight: 300;
-    letter-spacing: 7px;
-    margin-top: 38px;
-    font-variant-numeric: tabular-nums;
+.gold-line {
+  width: 55px;
+  height: 1px;
+  background: var(--gold);
+  margin: 28px auto;
+  box-shadow: 0 0 12px #d6b47a77;
 }
 
-.timer-label {
-    color: var(--muted);
-    font-family: Arial, sans-serif;
-    font-size: 9px;
-    letter-spacing: 3px;
-    margin-top: 12px;
-}
+/* Controls */
 
 .controls {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 40px;
+  position: absolute;
+  z-index: 15;
+  left: 0;
+  right: 0;
+  bottom: 27px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 15px;
 }
 
-.secondary-btn {
-    color: var(--ivory);
-    background: rgba(255,255,255,.03);
-    border: 1px solid rgba(255,255,255,.3);
-    padding: 14px 19px;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    transition: .3s;
+.control-btn {
+  border: 1px solid #ffffff42;
+  background: #100b0dc9;
+  color: #f8f0e9;
+  padding: 12px 17px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: .3s;
 }
 
-.secondary-btn:hover {
-    background: rgba(255,255,255,.12);
+.control-btn:hover,
+.control-btn.selected {
+  background: #f8f0e9;
+  color: #29101a;
+  border-color: #f8f0e9;
 }
 
-/* SOUND */
-
-.sound-btn {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 15;
-    color: var(--muted);
-    background: transparent;
-    border: 1px solid rgba(255,255,255,.2);
-    padding: 12px 15px;
-    font-size: 9px;
-    letter-spacing: 2px;
+.control-btn:focus-visible,
+.primary-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
 }
 
-/* FINALE */
-
-.ending {
-    position: fixed;
-    inset: 0;
-    z-index: 8;
-    background:
-        radial-gradient(ellipse at center,
-        #351923 0%,
-        #100D0F 65%,
-        #080708 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 25px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 2s ease, visibility 2s ease;
+.top-controls {
+  position: absolute;
+  z-index: 16;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 9px;
 }
 
-.ending.show {
-    opacity: 1;
-    visibility: visible;
+.small-btn {
+  border: 1px solid #ffffff38;
+  background: #100b0d99;
+  color: #f8f0e9;
+  padding: 10px 12px;
+  font-size: 9px;
+  letter-spacing: 1px;
 }
 
-.ending-content {
-    max-width: 620px;
-    animation: endingReveal 2.5s ease;
+/* Finale */
+
+#finale {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  background: #050405;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 30px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 2s ease;
 }
 
-.ending-label {
-    color: var(--muted);
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 6px;
-    margin-bottom: 40px;
+#finale.active {
+  opacity: 1;
+  visibility: visible;
 }
 
-.ending h2 {
-    font-size: clamp(30px, 6vw, 48px);
-    font-weight: 400;
-    line-height: 1.5;
-    margin-bottom: 25px;
+.finale-kicker {
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 6px;
+  margin-bottom: 35px;
 }
 
-.ending p {
-    color: var(--muted);
-    font-size: 16px;
-    line-height: 1.8;
+.finale-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 8vw, 78px);
+  line-height: 1.1;
+  max-width: 800px;
+  font-weight: 400;
 }
 
-.restart {
-    margin-top: 45px;
+.finale-text {
+  color: #c8b9b7;
+  margin-top: 25px;
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 1px;
 }
 
-.hidden {
-    display: none !important;
+.finale-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
 }
 
-/* ANIMATIONS */
-
-@keyframes entrance {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.footer-mark {
+  position: absolute;
+  bottom: 25px;
+  color: #ffffff44;
+  font-size: 9px;
+  letter-spacing: 4px;
 }
 
-@keyframes endingReveal {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Mobile */
+
+@media(max-width: 600px) {
+  .intro-title { letter-spacing: -1px; }
+  .intro-subtitle { font-size: 9px; letter-spacing: 2px; }
+  .experience { top: 46%; width: 88%; }
+  .main-message { font-size: clamp(35px, 10vw, 53px); }
+  .quote { font-size: 12px; }
+  .controls { bottom: 18px; gap: 7px; }
+  .control-btn { padding: 11px 12px; font-size: 8px; }
+  .top-controls { top: 12px; right: 12px; }
+  .small-btn { padding: 9px; font-size: 8px; }
+  .spot-source { width: 60px; }
+  .beam { width: 115vw; }
 }
 
-@media(max-width:480px) {
-    .intro h1 {
-        font-size: 35px;
-    }
-
-    .stage-label {
-        letter-spacing: 4px;
-        margin-bottom: 30px;
-    }
-
-    .main-message {
-        font-size: 29px;
-    }
-
-    .timer {
-        font-size: 43px;
-    }
-
-    .controls {
-        margin-top: 28px;
-    }
-
-    .secondary-btn {
-        padding: 12px 13px;
-    }
-}
-
-@media(prefers-reduced-motion:reduce) {
-    *,*::before,*::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-    }
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="grain"></div>
+<!-- OPENING SCREEN -->
 
-<!-- INTRODUCTION -->
+<section id="intro">
+  <div class="intro-label">A moment. A stage. A decision.</div>
 
-<section class="intro" id="intro">
-    <div class="intro-content">
+  <h1 class="intro-title">
+    <span>No mistakes</span>
+    <span>in spotlight.</span>
+  </h1>
 
-        <div class="eyebrow">A MOMENT OF YOUR OWN</div>
+  <p class="intro-subtitle">Your moment begins here.</p>
 
-        <h1>No mistakes in spotlight.</h1>
-
-        <button class="primary-btn" onclick="enterSpotlight()">
-            ENTER THE SPOTLIGHT
-        </button>
-
-        <div class="intro-note">
-            THE MOMENT IS YOURS.
-        </div>
-
-    </div>
+  <button class="primary-btn" id="enterBtn">
+    ENTER THE SPOTLIGHT
+  </button>
 </section>
 
+<!-- THEATRE -->
 
-<!-- STAGE -->
+<main id="theatre">
 
-<main class="stage" id="stage">
+  <div class="ambient-glow"></div>
+  <div class="ceiling"></div>
 
-    <div class="beam"></div>
-    <div class="floor-light"></div>
+  <div class="spot-source"></div>
+  <div class="beam"></div>
+  <div class="beam-core"></div>
+  <div class="haze"></div>
 
-    <div class="content">
+  <div class="stage">
+    <div class="stage-floor"></div>
+  </div>
 
-        <div class="stage-label">
-            THE MOMENT IS YOURS
-        </div>
+  <div class="curtain left"></div>
+  <div class="curtain right"></div>
+  <div class="valance"></div>
 
-        <h2 class="main-message">
-            You were never supposed to be perfect.
-            <br>
-            You were supposed to be prepared.
-        </h2>
+  <div class="top-controls">
+    <button class="small-btn" id="soundBtn">SOUND: ON</button>
+    <button class="small-btn" id="fullBtn">FULLSCREEN</button>
+  </div>
 
-        <p class="quote" id="quote">
-            Let your preparation speak.
-        </p>
-
-        <div class="timer" id="timer">01:00</div>
-
-        <div class="timer-label" id="timerLabel">
-            YOUR MOMENT STARTS NOW
-        </div>
-
-        <div class="controls">
-
-            <button class="secondary-btn" onclick="newQuote()">
-                NEW PERSPECTIVE
-            </button>
-
-            <button class="secondary-btn" id="pauseButton"
-                    onclick="togglePause()">
-                PAUSE TIMER
-            </button>
-
-        </div>
-
+  <section class="experience">
+    <div class="mode-kicker" id="modeKicker">
+      THE SPOTLIGHT
     </div>
 
+    <h2 class="main-message" id="mainMessage">
+      You were never supposed to be perfect.
+      You were supposed to be prepared.
+    </h2>
+
+    <div class="gold-line"></div>
+
+    <p class="quote" id="quote">
+      The moment is yours. Make it count.
+    </p>
+  </section>
+
+  <nav class="controls" aria-label="Experience modes">
+    <button class="control-btn selected" data-mode="focus">
+      FOCUS
+    </button>
+    <button class="control-btn" data-mode="confidence">
+      CONFIDENCE
+    </button>
+    <button class="control-btn" data-mode="performance">
+      PERFORMANCE
+    </button>
+    <button class="control-btn" id="nextQuote">
+      NEXT QUOTE
+    </button>
+    <button class="control-btn" id="finishBtn">
+      END EXPERIENCE
+    </button>
+  </nav>
 </main>
 
+<!-- FINALE -->
 
-<!-- THEATRE CURTAINS -->
+<section id="finale">
+  <div class="finale-kicker">THE FINAL MOMENT</div>
 
-<div class="curtain" id="curtain">
-    <div class="curtain-panel left"></div>
-    <div class="curtain-panel right"></div>
-</div>
+  <h2 class="finale-title">
+    The preparation is over.<br>
+    Now make the moment count.
+  </h2>
 
+  <p class="finale-text">
+    You don't have to be perfect.<br>
+    Just be present.
+  </p>
 
-<!-- SOUND CONTROL -->
+  <div class="finale-actions">
+    <button class="primary-btn" id="replayBtn">
+      EXPERIENCE AGAIN
+    </button>
+  </div>
 
-<button class="sound-btn" id="soundButton"
-        onclick="toggleSound()">
-    SOUND: OFF
-</button>
-
-
-<!-- CLOSING SCENE -->
-
-<section class="ending" id="ending">
-
-    <div class="ending-content">
-
-        <div class="ending-label">
-            THE SPOTLIGHT
-        </div>
-
-        <h2>
-            The preparation is over.
-            <br>
-            Now make the moment count.
-        </h2>
-
-        <p>
-            You don't have to be perfect.
-            Just be present.
-        </p>
-
-        <button class="primary-btn restart"
-                onclick="replay()">
-            EXPERIENCE IT AGAIN
-        </button>
-
-    </div>
-
+  <div class="footer-mark">THE SPOTLIGHT</div>
 </section>
 
-
 <script>
-
-/* QUOTES */
-
-const quotes = [
-    "Let your preparation speak.",
-    "Pressure creates presence.",
-    "This is your moment.",
-    "Confidence is built before the spotlight.",
-    "Be present. Be prepared. Perform.",
-    "Own the moment. Trust the process.",
-    "Excellence is a habit, not an accident.",
-    "You don't need permission to shine.",
-    "Make the moment count.",
-    "Your discipline will introduce you before you speak.",
-    "Preparation turns pressure into opportunity.",
-    "Don't chase perfection. Pursue excellence."
-];
-
-let lastQuote = -1;
-
-function newQuote() {
-
-    let index;
-
-    do {
-        index = Math.floor(Math.random() * quotes.length);
-    } while (index === lastQuote);
-
-    lastQuote = index;
-
-    const element = document.getElementById("quote");
-
-    element.style.opacity = 0;
-
-    setTimeout(() => {
-        element.textContent = quotes[index];
-        element.style.opacity = 1;
-    }, 450);
-}
-
-
-/* TIMER */
-
-let timeLeft = 60;
-let timerInterval = null;
-let paused = false;
-let finished = false;
-
-function updateTimerDisplay() {
-
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-
-    document.getElementById("timer").textContent =
-        String(minutes).padStart(2, "0") + ":" +
-        String(seconds).padStart(2, "0");
-}
-
-function startTimer() {
-
-    if (timerInterval || finished || paused) return;
-
-    timerInterval = setInterval(() => {
-
-        if (timeLeft > 0) {
-            timeLeft--;
-            updateTimerDisplay();
-        }
-
-        if (timeLeft === 0) {
-            completeExperience();
-        }
-
-    }, 1000);
-}
-
-function togglePause() {
-
-    if (finished) return;
-
-    paused = !paused;
-
-    const button = document.getElementById("pauseButton");
-
-    if (paused) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        button.textContent = "RESUME TIMER";
-
-        document.getElementById("timerLabel").textContent =
-            "TAKE YOUR TIME";
-    } else {
-        button.textContent = "PAUSE TIMER";
-
-        document.getElementById("timerLabel").textContent =
-            "YOUR MOMENT IS WAITING";
-
-        startTimer();
-    }
-}
-
-
-/* QUOTE ROTATION */
-
-let quoteInterval = null;
-
-function startQuotes() {
-
-    clearInterval(quoteInterval);
-
-    quoteInterval = setInterval(() => {
-        if (!finished) newQuote();
-    }, 8000);
-}
-
-
-/* ENTER THE SPOTLIGHT */
-
-function enterSpotlight() {
-
-    document.getElementById("intro").classList.add("hide");
-
-    const stage = document.getElementById("stage");
-    stage.classList.add("active");
-
-    const curtain = document.getElementById("curtain");
-
-    setTimeout(() => {
-        curtain.classList.add("open");
-    }, 250);
-
-    setTimeout(() => {
-        stage.classList.add("lit");
-    }, 1600);
-
-    newQuote();
-    startQuotes();
-    startTimer();
-}
-
-
-/* ENDING */
-
-function completeExperience() {
-
-    if (finished) return;
-
-    finished = true;
-
-    clearInterval(timerInterval);
-    clearInterval(quoteInterval);
-
-    timerInterval = null;
-    quoteInterval = null;
-
-    document.getElementById("timerLabel").textContent =
-        "TIME IS UP";
-
-    document.getElementById("stage").classList.remove("lit");
-
-    document.getElementById("ending").classList.add("show");
-
-    stopSound();
-}
-
-
-/* REPLAY */
-
-function replay() {
-
-    clearInterval(timerInterval);
-    clearInterval(quoteInterval);
-
-    timerInterval = null;
-    quoteInterval = null;
-
-    timeLeft = 60;
-    paused = false;
-    finished = false;
-    lastQuote = -1;
-
-    updateTimerDisplay();
-
-    document.getElementById("pauseButton").textContent =
-        "PAUSE TIMER";
-
-    document.getElementById("timerLabel").textContent =
-        "YOUR MOMENT STARTS NOW";
-
-    document.getElementById("ending").classList.remove("show");
-
-    const stage = document.getElementById("stage");
-    stage.classList.remove("lit", "active");
-
-    const curtain = document.getElementById("curtain");
-    curtain.classList.remove("open");
-
-    document.getElementById("intro").classList.remove("hide");
-
-}
-
-
-/* OPTIONAL AMBIENT SOUND */
+/* ------------------------------
+   SOUND ENGINE
+-------------------------------- */
 
 let audioContext = null;
-let oscillator1 = null;
-let oscillator2 = null;
-let gainNode = null;
-let soundEnabled = false;
+let masterGain = null;
+let soundEnabled = true;
+let ambientOscillator = null;
+let ambientGain = null;
 
-function toggleSound() {
-
-    if (!soundEnabled) {
-
-        const AudioContext =
-            window.AudioContext || window.webkitAudioContext;
-
-        if (!AudioContext) {
-            alert("Audio is not supported on this browser.");
-            return;
-        }
-
-        audioContext = new AudioContext();
-        audioContext.resume();
-
-        gainNode = audioContext.createGain();
-        gainNode.gain.value = 0.018;
-
-        oscillator1 = audioContext.createOscillator();
-        oscillator2 = audioContext.createOscillator();
-
-        oscillator1.type = "sine";
-        oscillator2.type = "sine";
-
-        oscillator1.frequency.value = 55;
-        oscillator2.frequency.value = 82.41;
-
-        oscillator2.detune.value = 3;
-
-        oscillator1.connect(gainNode);
-        oscillator2.connect(gainNode);
-
-        gainNode.connect(audioContext.destination);
-
-        oscillator1.start();
-        oscillator2.start();
-
-        soundEnabled = true;
-
-        document.getElementById("soundButton").textContent =
-            "SOUND: ON";
-
-    } else {
-        stopSound();
+function initAudio() {
+  if (audioContext) {
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
     }
-}
+    return;
+  }
 
-function stopSound() {
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
 
-    if (audioContext) {
-
-        if (oscillator1) {
-            try { oscillator1.stop(); } catch(e) {}
-        }
-
-        if (oscillator2) {
-            try { oscillator2.stop(); } catch(e) {}
-        }
-
-        audioContext.close();
-
-        audioContext = null;
-        oscillator1 = null;
-        oscillator2 = null;
-        gainNode = null;
-    }
-
+  if (!AudioContextClass) {
     soundEnabled = false;
+    return;
+  }
 
-    document.getElementById("soundButton").textContent =
-        "SOUND: OFF";
+  audioContext = new AudioContextClass();
+
+  masterGain = audioContext.createGain();
+  masterGain.gain.value = soundEnabled ? 0.55 : 0;
+  masterGain.connect(audioContext.destination);
 }
 
+function playTone(frequency, duration, volume = 0.08, type = "sine") {
+  if (!soundEnabled || !audioContext) return;
 
-/* INITIAL STATE */
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
 
-updateTimerDisplay();
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(
+    frequency, audioContext.currentTime
+  );
 
-</script>
+  gain.gain.setValueAtTime(0, audioContext.currentTime);
+  gain.gain.linearRampToValueAtTime(
+    volume, audioContext.currentTime + 0.15
+  );
+  gain.gain.exponentialRampToValueAtTime(
+    0.001, audioContext.currentTime + duration
+  );
 
-</body>
-</html>
+  oscillator.connect(gain);
+  gain.connect(masterGain);
+
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + duration);
+}
+
+function curtainSound() {
+  if (!soundEnabled || !audioContext) return;
+
+  // Soft cinematic low-frequency movement
+  playTone(75, 2.8, 0.09, "triangle");
+  playTone(110, 2.1, 0.035, "sine");
+}
+
+function spotlightSound() {
+  if (!soundEnabled || !audioContext) return;
+
+  playTone(440, 1.8, 0.06, "sine");
+  setTimeout(() => playTone(660, 2.2, 0.035), 250);
+}
+
+function finaleSound() {
+  if (!soundEnabled || !audioContext) return;
+
+  playTone(330, 2.5, 0.06, "sine");
+  setTimeout(() => playTone(220, 3.2, 0.045), 350);
+  setTimeout(() => playTone(165, 3.8, 0.03), 750);
+}
+
+function startAmbient() {
+  if (!soundEnabled || !audioContext || ambientOscillator) return;
+
+  ambientOscillator = audioContext.createOscillator();
+  ambientGain = audioContext.createGain();
+
+  ambientOscillator.type = "sine";
+  ambientOscillator.frequency.value = 55;
+  ambientGain.gain.value = 0.018;
+
+  ambientOscillator.connect(ambientGain);
+  ambientGain.connect(masterGain);
+  ambientOscillator.start();
+}
+
+function stopAmbient() {
+  if (ambientOscillator) {
+    try { ambientOscillator.stop(); } catch (e) {}
+    ambientOscillator.disconnect();
+    ambientGain.disconnect();
+    ambientOscillator = null;
+    ambientGain = null;
+  }
+}
+
+function updateSound() {
+  if (!audioContext || !masterGain) return;
+
+  masterGain.gain.setTargetAtTime(
+    soundEnabled ? 0.55 : 0,
+    audioContext.currentTime,
+    0.15
+  );
+
+  if (soundEnabled) {
+    startAmbient();
+  } else {
+    stopAmbient();
+  }
+
+  document.getElementById("soundBtn").textContent =
+    soundEnabled ? "SOUND: ON" : "SOUND: OFF";
+}
+
+/* ------------------------------
+   EXPERIENCE CONTENT
+-------------------------------- */
+
+const modes = {
+  focus: {
+    kicker: "MODE 01 — FOCUS",
+    heading: "Give this moment your undivided attention.",
+    quotes: [
+      "One task. One direction. No unnecessary noise.",
+      "Discipline is choosing what matters over what distracts.",
+      "Your attention is valuable. Spend it wisely.",
+      "Don't think about everything. Focus on the next step.",
+      "Clarity begins when distractions end.",
+      "Small steps, complete concentration, meaningful progress.",
+      "Stay with the process. Let the results follow.",
+      "Preparation turns uncertainty into direction."
+    ]
+  },
+
+  confidence: {
+    kicker: "MODE 02 — CONFIDENCE",
+    heading: "Walk in knowing that you belong here.",
+    quotes: [
+      "You have earned the right to be in this room.",
+      "Confidence is quiet. It doesn't need to announce itself.",
+      "Trust the work you have put in.",
+      "You don't need everyone's approval to move forward.",
+      "Stand by your preparation. Believe in your ability.",
+      "You are allowed to take up space and make your mark.",
+      "Let your work speak before your doubts do.",
+      "Be calm. Be certain. Be yourself."
+    ]
+  },
+
+  performance: {
+    kicker: "MODE 03 — PERFORMANCE",
+    heading: "This is where preparation meets opportunity.",
+    quotes: [
+      "Don't wait for the perfect moment. Make this moment count.",
+      "Execution is what turns potential into achievement.",
+      "Stay composed. Think clearly. Deliver your best.",
+      "The pressure is part of the performance.",
+      "Make every second of preparation visible in your work.",
+      "The stage doesn't need perfection. It needs presence.",
+      "When the moment arrives, trust your training.",
+      "Do the work. Own the moment. Finish strong."
+    ]
+  }
+};
+
+let currentMode = "focus";
+let quoteIndex = 0;
+let quoteInterval = null;
+
+const theatre = document.getElementById("theatre");
+const intro = document.getElementById("intro");
+const finale = document.getElementById("finale");
+
+const modeKicker = document.getElementById("modeKicker");
+const mainMessage = document.getElementById("mainMessage");
+const quote = document.getElementById("quote");
+
+function setMode(mode) {
+  if (!modes[mode]) return;
+
+  currentMode = mode;
+  quoteIndex = 0;
+
+  modeKicker.textContent = modes[mode].kicker;
+  mainMessage.textContent = modes[mode].heading;
+  quote.textContent = modes[mode].quotes[0];
+
+  document.querySelectorAll("[data-mode]").forEach(button => {
+    button.classList.toggle(
+      "selected",
+      button.dataset.mode === mode
+    );
+  });
+}
+
+function nextQuote() {
+  const quotes = modes[currentMode].quotes;
+
+  quote.style.opacity = 0;
+
+  setTimeout(() => {
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+    quote.textContent = quotes[quoteIndex];
+    quote.style.opacity = 1;
+  }, 300);
+}
+
+function startQuoteRotation() {
+  clearInterval(quoteInterval);
+  quoteInterval = setInterval(nextQuote, 9000);
+}
+
+/* ------------------------------
+   OPENING SEQUENCE
+-------------------------------- */
+
+function enterExperience() {
+  initAudio();
+
+  if (audioContext && audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+
+  intro.style.opacity = "0";
+  intro.style.visibility = "hidden";
+
+  theatre.classList.add("active");
+
+  curtainSound();
+
+  setTimeout(() => {
+    theatre.classList.add("open");
+  }, 300);
+
+  setTimeout(() => {
+    theatre.classList.add("lit");
+    spotlightSound();
+    startAmbient();
+  }, 1700);
+
+  setTimeout(() => {
+    theatre.classList.add("revealed");
+    startQuoteRotation();
+  }, 3400);
+}
+
+/* ------------------------------
+   FINALE
+-------------------------------- */
+
+function endExperience() {
+  clearInterval(quoteInterval);
+  stopAmbient();
+  finaleSound();
+
+  theatre.style.transition = "opacity 2s ease";
+  theatre.style.opacity = "0";
+
+  setTimeout(() => {
+    theatre.classList.remove("active");
+    finale.classList.add("active");
+  }, 1900);
+}
+
+function replayExperience() {
+  finale.classList.remove("active");
+
+  theatre.style.transition = "none";
+  theatre.style.opacity = "0";
+
+  theatre.classList.remove(
+    "active", "open", "lit", "revealed"
+  );
+
+  intro.style.transition = "none";
+  intro.style.visibility = "visible";
+  intro.style.opacity = "1";
+
+  setMode("focus");
+
+  setTimeout(() => {
+    theatre.style.transition = "";
+    intro.style.transition = "";
+    theatre.style.opacity = "";
+  }, 100);
+}
+
+/* ------------------------------
+   FULLSCREEN
+-------------------------------- */
+
+async function toggleFullscreen() {
+  try {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+    } else {
+      await document.exitFullscreen();
+    }
+  } catch (error) {
+    console.log("Fullscreen is not suppo
