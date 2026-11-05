@@ -960,4 +960,22 @@ async function fullscreen() {
 
 document.getElementById("enter").onclick = enter;
 document.getElementById("next").onclick = nextQuote;
-document.getElementById("end")
+document.getElementById("end").onclick = endExperience;
+document.getElementById("replay").onclick = replay;
+document.getElementById("fullscreen").onclick = fullscreen;
+
+document.getElementById("sound").onclick = () => {
+  soundEnabled = !soundEnabled;
+  setupAudio();
+  updateSound();
+};
+
+document.querySelectorAll("[data-mode]").forEach(btn => {
+  btn.addEventListener("click", () => setMode(btn.dataset.mode));
+});
+
+setMode("focus");
+</script>
+
+</body>
+</html>
